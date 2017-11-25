@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import urllib.request
 import queue
 from bs4 import BeautifulSoup
@@ -6,11 +8,12 @@ import multiprocessing
 
 import db
 import preProp
+import argparse
 
 
 class Crawler(db.DB, preProp.PreProcessor):
 
-    def __init__(self, startURL, dbName = 'crawler2.db'):
+    def __init__(self, startURL, dbName = 'crawler.db'):
 
         db.DB.__init__(self, dbName, ())
 
@@ -130,3 +133,21 @@ class Crawler(db.DB, preProp.PreProcessor):
             ## inherited from DB supper class: write2db
             self.insert()
         print("Queue is empty.")
+
+if __name__ == '__main__':
+   
+
+   parser = argparse.ArgumentParser()
+   parser.add_argument('startURL', type=str)
+
+   args = parser.parse_args()
+
+   
+   c = Crawler(args.startURL)
+
+   c.crawl()
+
+
+
+
+
